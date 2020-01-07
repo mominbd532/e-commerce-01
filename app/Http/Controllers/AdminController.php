@@ -43,4 +43,8 @@ class AdminController extends Controller
         return redirect('/admin')->with('message','Your are successfully logged out');
     }
 
+    public function setting(){
+        return view('admin.setting');
+    }
+
 }
