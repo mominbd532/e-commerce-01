@@ -12,7 +12,11 @@ class AdminController extends Controller
             $data = $request->input();
 
             if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password'],'admin'=>'1'])){
-                echo "Success"; die;
+                //echo "Success"; die;
+
+                return redirect()->to('/admin/dashboard');
+
+
             }
             else{
                 echo "Failed"; die;
@@ -24,4 +28,9 @@ class AdminController extends Controller
 
         return view('admin.admin_login');
     }
+
+    public function dashboard(){
+        return view('admin.dashboard');
+    }
+
 }
