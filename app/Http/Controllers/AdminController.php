@@ -14,17 +14,13 @@ class AdminController extends Controller
 
             if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password'],'admin'=>'1'])){
                 //echo "Success"; die;
-
+               // Session::put('adminSession',$data['email']);
                 return redirect()->to('/admin/dashboard');
-
-
             }
             else{
                 //echo "Failed"; die;
                 return redirect('/admin')->with('message','Invalid Username or Password ');
             }
-
-
         }
 
 
@@ -32,12 +28,19 @@ class AdminController extends Controller
     }
 
     public function dashboard(){
+        /*if (Session::has('adminSession')){
+            //Perform all dashboard task
+
+        }
+        else{
+            return redirect('/admin')->with('message','Please login to access');
+        }*/
         return view('admin.dashboard');
     }
 
     public function logout(){
         Session::flush();
-        return redirect('/admin')->with('message1','Your are successfully logged out');
+        return redirect('/admin')->with('message','Your are successfully logged out');
     }
 
 }
