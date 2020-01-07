@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
@@ -19,7 +20,8 @@ class AdminController extends Controller
 
             }
             else{
-                echo "Failed"; die;
+                //echo "Failed"; die;
+                return redirect('/admin')->with('message','Invalid Username or Password ');
             }
 
 
@@ -31,6 +33,11 @@ class AdminController extends Controller
 
     public function dashboard(){
         return view('admin.dashboard');
+    }
+
+    public function logout(){
+        Session::flush();
+        return redirect('/admin')->with('message1','Your are successfully logged out');
     }
 
 }
