@@ -54,8 +54,60 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
-	
-	$("#number_validate").validate({
+
+    // Add Category Form Validation
+    $("#add_category").validate({
+        rules:{
+            category_name:{
+                required:true
+            },
+            description:{
+                required:true,
+            },
+
+            url:{
+                required:true,
+            }
+        },
+        errorClass: "help-inline",
+        errorElement: "span",
+        highlight:function(element, errorClass, validClass) {
+            $(element).parents('.control-group').addClass('error');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).parents('.control-group').removeClass('error');
+            $(element).parents('.control-group').addClass('success');
+        }
+    });
+
+    // Edit Category Form Validation
+    $("#edit_category").validate({
+        rules:{
+            category_name:{
+                required:true
+            },
+            description:{
+                required:true,
+            },
+
+            url:{
+                required:true,
+            }
+        },
+        errorClass: "help-inline",
+        errorElement: "span",
+        highlight:function(element, errorClass, validClass) {
+            $(element).parents('.control-group').addClass('error');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).parents('.control-group').removeClass('error');
+            $(element).parents('.control-group').addClass('success');
+        }
+    });
+
+
+
+    $("#number_validate").validate({
 		rules:{
 			min:{
 				required: true,
@@ -110,4 +162,11 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
+
+	$('#delCat').click(function () {
+		if(confirm('are you sure went to delete this category')){
+			return true;
+		}
+		return false;
+    });
 });
