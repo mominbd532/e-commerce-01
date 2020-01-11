@@ -13,13 +13,16 @@ class CategoryController extends Controller
             //echo '<pre>'; print_r($data); die;
             $category = new Category;
             $category->name = $data['category_name'];
+            $category->parent_id = $data['parent_id'];
             $category->description = $data['description'];
             $category->url = $data['url'];
             $category->save();
 
             return redirect()->to('/admin/view-category')->with('message','Category added successfully');
         }
-        return view('admin.categories.add_categories');
+
+        $levels =Category::where(['parent_id'=>0])->get();
+        return view('admin.categories.add_categories',compact('levels'));
     }
 
     public function viewCategory(){
@@ -33,6 +36,7 @@ class CategoryController extends Controller
             //echo '<pre>'; print_r($data); die;
             Category::where(['id'=>$id])->update([
                 'name'=>$data['category_name'],
+                'parent_id' => $data['parent_id'],
                 'description'=>$data['description'],
                 'url'=>$data['url'],
             ]);
@@ -42,8 +46,9 @@ class CategoryController extends Controller
         }
 
         $category_details =Category::where(['id'=> $id])->first();
+        $levels =Category::where(['parent_id'=>0])->get();
 
-        return view('admin.categories.edit_categories',compact('category_details'));
+        return view('admin.categories.edit_categories',compact('category_details','levels'));
     }
 
     public function deleteCategory($id){

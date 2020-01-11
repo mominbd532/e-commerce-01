@@ -25,6 +25,18 @@
                                 </div>
 
                                 <div class="control-group">
+                                    <label class="control-label">Category Lavel</label>
+                                    <div class="controls">
+                                        <select name="parent_id" style="width: 220px;">
+                                            <option value="0"> Main Category</option>
+                                            @foreach($levels as $level)
+                                                <option value="{{$level->id}}" {{$level->id==$category_details->parent_id ? "selected":""}}>{{$level->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
                                     <label class="control-label">Description</label>
                                     <div class="controls">
                                         <textarea name="description" id="description">{{$category_details->description}}</textarea>
