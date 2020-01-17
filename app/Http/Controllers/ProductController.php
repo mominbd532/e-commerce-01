@@ -81,4 +81,90 @@ class ProductController extends Controller
         }
         return view('admin.products.view_products',compact('products'));
     }
+
+    public function editProduct(Request $request, $id){
+
+        if($request->isMethod('post')){
+            $data =$request->all();
+            //echo '<pre>'; print_r($data); die;
+
+            //upload image
+
+            if($request->hasFile('image')){
+                $image_tmp =Input::file('image');
+                if($image_tmp->isValid()){
+                    $extension =$image_tmp->getClientOriginalExtension();
+                    $fileName = rand(111,9999).'.'.$extension;
+                    $large_file_path ='images/backend_images/products/large/'.$fileName;
+                    $medium_file_path ='images/backend_images/products/medium/'.$fileName;
+                    $small_file_path ='images/backend_images/products/small/'.$fileName;
+
+                    //Resize Image
+
+                    Image::make($image_tmp)->save($large_file_path);
+                    Image::make($image_tmp)->resize(600,600)->save($medium_file_path);
+                    Image::make($image_tmp)->resize(300,300)->save($small_file_path);
+
+
+
+                }
+            }
+            else {
+                $fileName = $data['current_image'];
+            }
+
+
+            if(empty($data['description'])){
+                $data['description'] = "";
+            }
+
+
+            Product::where(['id'=>$id])->update([
+                'category_id'=>$data['category_id'],
+                'product_name'=>$data['product_name'],
+                'product_code'=>$data['product_code'],
+                'product_color'=>$data['product_color'],
+                'description'=>$data['description'],
+                'price'=>$data['price'],
+                'image'=>$fileName,
+            ]);
+
+            return redirect()->back()->with('message','Product Updated Successfully');
+
+        }
+
+        $products = Product::where(['id'=> $id])->first();
+
+        $categories =Category::where(['parent_id'=>0])->get();
+        $categories_dropdown = "<option selected disabled> Select</option>";
+        foreach ($categories as $cat){
+            if($cat->id == $products->category_id){
+                $selected = "selected";
+            }
+            else{
+                $selected = "";
+            }
+            $categories_dropdown .= "<option value='".$cat->id."' ".$selected.">".$cat->name."</option>";
+            $sub_categories =Category::where(['parent_id'=>$cat->id])->get();
+            foreach ($sub_categories as $sub_cat){
+                if($sub_cat->id == $products->category_id){
+                    $selected = "selected";
+                }
+                else{
+                    $selected = "";
+                }
+                $categories_dropdown .="<option value='".$sub_cat->id."' ".$selected.">&nbsp;--&nbsp;".$sub_cat->name."</option>";
+            }
+        }
+
+
+        return view('admin.products.edit_products',compact('products','categories_dropdown'));
+
+
+    }
+
+    public function deleteProductImage($id){
+        Product::where(['id'=>$id])->update(['image'=>""]);
+        return redirect()->back()->with('message1','Image Deleted Successfully');
+    }
 }
