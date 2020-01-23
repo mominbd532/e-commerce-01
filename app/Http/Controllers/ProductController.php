@@ -167,4 +167,10 @@ class ProductController extends Controller
         Product::where(['id'=>$id])->update(['image'=>""]);
         return redirect()->back()->with('message1','Image Deleted Successfully');
     }
+
+    public  function deleteProduct($id){
+        Product::where(['id'=>$id])->delete();
+        return redirect()->back()->with('message1','Product Deleted Successfully');
+
+    }
 }

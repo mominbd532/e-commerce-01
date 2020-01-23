@@ -16,6 +16,16 @@
                 </div>
 
             @endif
+            @if(Session::has('message1'))
+                <div class="alert alert-danger alert-block">
+
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+
+                    <strong>{!! session('message1') !!}</strong>
+
+                </div>
+
+            @endif
         </div>
         <div class="container-fluid">
             <hr>
@@ -60,7 +70,8 @@
                                         <td class="center">
                                             <a href="#myModal{{$product->id}}" data-toggle="modal" class="btn btn-success btn-mini">View</a>
                                             <a href="{{url('/admin/edit-product/'.$product->id)}}" class="btn btn-primary btn-mini">Edit</a>
-                                            <a id="delCat" href="{{url('/admin/delete-products/'.$product->id)}}" class="btn btn-danger btn-mini">Delete</a>
+                                            <a rel="{{$product->id}}" rel1="delete-product" <?php /*href="{{url('/admin/delete-product/'.$product->id)}}"*/ ?>
+                                            href="javascript:" class="btn btn-danger btn-mini deleteRecord" >Delete</a>
                                         </td>
                                     </tr>
                                     <div id="myModal{{$product->id}}" class="modal hide">
