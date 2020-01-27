@@ -106,7 +106,7 @@
                                         <td>{{$attribute->price}}</td>
                                         <td>{{$attribute->stock}}</td>
                                         <td class="center">
-                                            <a rel="{{$attribute->id}}" rel1="delete-attribute" <?php /*href="{{url('/admin/delete-attribute/'.$attribute->id)}}"*/ ?>
+                                            <a rel="{{$attribute->id}}" rel1="delete-attribute" 
                                             href="javascript:" class="btn btn-danger btn-mini deleteRecord" >Delete</a>
                                         </td>
                                     </tr>
