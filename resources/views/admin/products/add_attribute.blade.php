@@ -4,7 +4,7 @@
 
     <div id="content">
         <div id="content-header">
-            <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Products</a> <a href="#" class="current">Add Products Attribute</a> </div>
+            <div id="breadcrumb"> <a href="{{url('/admin/dashboard')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Products</a> <a href="#" class="current">Add Products Attribute</a> </div>
             <h1>Products Attribute</h1>
             @if(Session::has('message'))
                 <div class="alert alert-success alert-block">
@@ -106,7 +106,7 @@
                                         <td>{{$attribute->price}}</td>
                                         <td>{{$attribute->stock}}</td>
                                         <td class="center">
-                                            <a rel="{{$attribute->id}}" rel1="delete-attribute" 
+                                            <a rel="{{$attribute->id}}" rel1="delete-attribute"
                                             href="javascript:" class="btn btn-danger btn-mini deleteRecord" >Delete</a>
                                         </td>
                                     </tr>
