@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
+use App\ProductsAttribute;
 use Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -171,6 +172,35 @@ class ProductController extends Controller
     public  function deleteProduct($id){
         Product::where(['id'=>$id])->delete();
         return redirect()->back()->with('message1','Product Deleted Successfully');
+
+    }
+
+    public function addAttribute(Request $request,$id){
+        $product = Product::with('attributes')->where(['id'=>$id])->first();
+        /*$product = json_decode(json_encode($product));*/
+       /* echo '<pre>'; print_r($product); die;*/
+
+        if($request->isMethod('post')){
+            $data =$request->all();
+            //echo '<pre>'; print_r($data); die;
+
+            foreach ($data['sku']as $key=>$val){
+                if(!empty($val)){
+                    $attribute = new ProductsAttribute;
+                    $attribute->product_id = $id;
+                    $attribute->sku = $val;
+                    $attribute->size = $data['size'][$key];
+                    $attribute->price = $data['price'][$key];
+                    $attribute->stock = $data['stock'][$key];
+                    $attribute->save();
+
+                }
+
+            }
+
+            return redirect()->back()->with('message','Product attribute added successfully');
+        }
+        return view('admin.products.add_attribute',compact('product'));
 
     }
 }
