@@ -77,6 +77,7 @@
                             <div class="panel panel-default">
                                 <?php /*echo $categories_manu;*/ ?>
                                     @foreach($categories as $cat)
+                                        @if($cat->status=="1")
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordian" href="#{{$cat->id}}">
@@ -89,12 +90,15 @@
                                         <div class="panel-body">
                                             <ul>
                                                 @foreach($cat->categories as $subCat)
+                                                    @if($subCat->status=="1")
                                                 <li><a href="{{url('/products/'.$subCat->url)}}">{{$subCat->name}} </a></li>
+                                                    @endif
                                                 @endforeach
 
                                             </ul>
                                         </div>
                                     </div>
+                                        @endif
                                     @endforeach
                             </div>
 
