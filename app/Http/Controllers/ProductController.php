@@ -259,4 +259,15 @@ class ProductController extends Controller
 
         return view('products.listing')->with(compact('categories','products','categoriesDetails'));
     }
+
+
+    public function product($id){
+
+        $categories =Category::with('categories')->where(['parent_id'=>0])->get();
+
+        $productDetails =Product::where(['id'=>$id])->first();
+
+        return view('products.details')->with(compact('categories','productDetails'));
+
+    }
 }

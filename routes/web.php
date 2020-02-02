@@ -70,3 +70,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/products/{url}','ProductController@products');
 
+
+//Product Details
+
+Route::get('/product-details/{id}','ProductController@product');
+
