@@ -15,6 +15,9 @@
     return view('welcome');
 });*/
 
+
+//Homepage
+
 Route::get('/','IndexController@index');
 
 
@@ -62,4 +65,8 @@ Route::get('/admin/logout','AdminController@logout');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Categories/listing
+
+Route::get('/products/{url}','ProductController@products');
 

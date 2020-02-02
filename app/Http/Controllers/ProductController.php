@@ -208,4 +208,29 @@ class ProductController extends Controller
         ProductsAttribute::where(['id'=>$id])->delete();
         return redirect()->back()->with('message1','Product attribute deleted successfully');
     }
+
+    public function products($url){
+
+        $categories =Category::with('categories')->where(['parent_id'=>0])->get();
+
+        $categoriesDetails =Category::where(['url'=>$url])->first();
+
+        if($categoriesDetails->parent_id==0){
+            $subCategories =Category::where(['parent_id'=>$categoriesDetails->id])->get();
+
+            foreach ($subCategories as $subCat){
+                $cat_ids[] =$subCat->id;
+            }
+
+            $products =Product::whereIn('category_id',$cat_ids)->get();
+        }
+        else{
+            //for sub categories
+            $products =Product::where(['category_id'=>$categoriesDetails->id])->get();
+
+        }
+
+
+        return view('products.listing')->with(compact('categories','products','categoriesDetails'));
+    }
 }
