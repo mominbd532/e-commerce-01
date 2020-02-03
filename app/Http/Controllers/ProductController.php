@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Product;
 use App\ProductsAttribute;
+use App\ProductsImage;
 use Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -205,6 +206,34 @@ class ProductController extends Controller
         return redirect()->back()->with('message1','Image Deleted Successfully');
     }
 
+
+    public function deleteAltProductImage($id){
+
+        $product =ProductsImage::where(['id'=>$id])->first();
+
+        //Image path
+
+        $large_image_path = "images/backend_images/products/large/";
+        $medium_image_path = "images/backend_images/products/medium/";
+        $small_image_path = "images/backend_images/products/small/";
+
+        if(file_exists($large_image_path.$product->images)){
+            unlink($large_image_path.$product->images);
+        }
+
+        if(file_exists($medium_image_path.$product->images)){
+            unlink($medium_image_path.$product->images);
+        }
+
+        if(file_exists($small_image_path.$product->images)){
+            unlink($small_image_path.$product->images);
+        }
+
+
+        ProductsImage::where(['id'=>$id])->delete();
+        return redirect()->back()->with('message1','Product Alt Image Deleted Successfully');
+    }
+
     public  function deleteProduct($id){
         Product::where(['id'=>$id])->delete();
         return redirect()->back()->with('message1','Product Deleted Successfully');
@@ -222,6 +251,26 @@ class ProductController extends Controller
 
             foreach ($data['sku']as $key=>$val){
                 if(!empty($val)){
+                    //Prevent Duplicate SKU Check
+
+                    $skuCount =ProductsAttribute::where('sku',$val)->count();
+
+                    if($skuCount>0){
+                        return redirect()->back()->with('message1','SKU already exist, please try another SKU');
+
+                    }
+
+                    //Prevent Duplicate Size Check
+
+                    $sizeCount =ProductsAttribute::where(['product_id'=>$id,'size'=>$data['size'][$key]])->count();
+
+                    if($sizeCount>0){
+                        return redirect()->back()->with('message1',''.$data['size'][$key].'   Size already exist for this product, please try another Size');
+
+                    }
+
+
+
                     $attribute = new ProductsAttribute;
                     $attribute->product_id = $id;
                     $attribute->sku = $val;
@@ -237,6 +286,45 @@ class ProductController extends Controller
             return redirect()->back()->with('message','Product attribute added successfully');
         }
         return view('admin.products.add_attribute',compact('product'));
+
+    }
+
+    public function addImages(Request $request,$id){
+        $product = Product::with('attributes')->where(['id'=>$id])->first();
+        /*$product = json_decode(json_encode($product));*/
+        /* echo '<pre>'; print_r($product); die;*/
+
+        if($request->isMethod('post')){
+            $data =$request->all();
+            //echo '<pre>'; print_r($data); die;
+            if($request->hasFile('image')){
+                $files =$request->file('image');
+                foreach ($files as $file){
+
+                    $image = new ProductsImage;
+                    $extension =$file->getClientOriginalExtension();
+                    $fileName = rand(111,9999).'.'.$extension;
+                    $large_file_path ='images/backend_images/products/large/'.$fileName;
+                    $medium_file_path ='images/backend_images/products/medium/'.$fileName;
+                    $small_file_path ='images/backend_images/products/small/'.$fileName;
+
+                    //Resize Image
+
+                    Image::make($file)->save($large_file_path);
+                    Image::make($file)->resize(600,600)->save($medium_file_path);
+                    Image::make($file)->resize(300,300)->save($small_file_path);
+                    $image->images = $fileName;
+                    $image->product_id = $id;
+                    $image->save();
+
+                }
+            }
+
+            return redirect()->back()->with('message','Image added successfully');
+        }
+
+        $productAltImages =ProductsImage::where(['product_id'=>$id])->get();
+        return view('admin.products.add_images',compact('product','productAltImages'));
 
     }
 
