@@ -87,6 +87,7 @@
                                             <p>Product Color: {{$product->product_color}}</p>
                                             <p>Price: {{$product->price}}</p>
                                             <p>Description: {{$product->description}} </p>
+                                            <p>Material & Care: {{$product->care}} </p>
                                         </div>
                                     </div>
                                 @endforeach

@@ -75,3 +75,6 @@ Route::get('/products/{url}','ProductController@products');
 
 Route::get('/product-details/{id}','ProductController@product');
 
+//Product Price
+Route::get('/get-product-price','ProductController@getProductPrice');
+

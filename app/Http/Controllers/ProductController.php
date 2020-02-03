@@ -24,11 +24,19 @@ class ProductController extends Controller
             $product->product_name = $data['product_name'];
             $product->product_code = $data['product_code'];
             $product->product_color = $data['product_color'];
+
             if(!empty($data['description'])){
                 $product->description = $data['description'];
             }
             else{
                 $product->description = '';
+            }
+
+            if(!empty($data['care'])){
+                $product->care = $data['care'];
+            }
+            else{
+                $product->care = '';
             }
 
             $product->price = $data['price'];
@@ -119,6 +127,11 @@ class ProductController extends Controller
                 $data['description'] = "";
             }
 
+            if(empty($data['care'])){
+                $data['care'] = "";
+            }
+
+
 
             Product::where(['id'=>$id])->update([
                 'category_id'=>$data['category_id'],
@@ -126,6 +139,7 @@ class ProductController extends Controller
                 'product_code'=>$data['product_code'],
                 'product_color'=>$data['product_color'],
                 'description'=>$data['description'],
+                'care'=>$data['care'],
                 'price'=>$data['price'],
                 'image'=>$fileName,
             ]);
@@ -265,9 +279,21 @@ class ProductController extends Controller
 
         $categories =Category::with('categories')->where(['parent_id'=>0])->get();
 
-        $productDetails =Product::where(['id'=>$id])->first();
+        $productDetails =Product::with('attributes')->where(['id'=>$id])->first();
 
         return view('products.details')->with(compact('categories','productDetails'));
+
+    }
+
+    public function getProductPrice(Request $request){
+        $data =$request->all();
+       /* echo "<pre>"; print_r($data);die;*/
+        $proArr = explode("-",$data['idSize']);
+        /*echo $proArr[0]; echo $proArr[1]; die;*/
+        $productAttribute =ProductsAttribute::where(['product_id'=>$proArr[0],'size'=>$proArr[1]])->first();
+
+        echo $productAttribute->price;
+
 
     }
 }
