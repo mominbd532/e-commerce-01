@@ -369,7 +369,10 @@ class ProductController extends Controller
 
         $productDetails =Product::with('attributes')->where(['id'=>$id])->first();
 
-        return view('products.details')->with(compact('categories','productDetails'));
+        $productAltImages =ProductsImage::where('product_id',$id)->get();
+
+
+        return view('products.details')->with(compact('categories','productDetails','productAltImages'));
 
     }
 
