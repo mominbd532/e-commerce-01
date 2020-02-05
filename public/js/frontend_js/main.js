@@ -41,8 +41,18 @@ $(document).ready(function () {
 			url: '/get-product-price',
 			data: {idSize:idSize},
 			success:function (resp) {
-				/*alert(resp);*/
-				$("#getPrice").html("৳"+resp);
+				/*alert(resp); return false;*/
+
+				var arr =resp.split('#');
+				$("#getPrice").html("৳"+arr[0]);
+				if(arr[1]==0){
+					$('#cartButton').hide();
+					$('#availability').text('Out of Stock');
+				}
+				else{
+                    $('#cartButton').show();
+                    $('#availability').text('In Stock');
+				}
 				
             },error:function () {
 				alert("Error");

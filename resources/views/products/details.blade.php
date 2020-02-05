@@ -61,12 +61,14 @@
 									<span id="getPrice">৳ {{$productDetails->price}}</span>
 									<label>Quantity:</label>
 									<input type="text" value="3" />
-									<button type="button" class="btn btn-fefault cart">
+                                    @if($totalStock>0)
+									<button type="button" class="btn btn-fefault cart" id="cartButton">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart
 									</button>
+                                    @endif
 								</span>
-                                <p><b>Availability:</b> In Stock</p>
+                                <p><b>Availability:</b><span id="availability">@if($totalStock>0)In Stock @else Out of Stock @endif</span> </p>
                                 <p><b>Condition:</b> New</p>
 
                                 <a href=""><img  src="{{asset('/images/frontend_images/product-details/share.png')}}" class="share img-responsive"  alt="" /></a>
@@ -117,83 +119,34 @@
                         <h2 class="title text-center">recommended items</h2>
 
                         <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+
                             <div class="carousel-inner">
-                                <div class="item active">
+                                <?php $count=1; ?>
+                                @foreach( $relatedProduct->chunk(3) as $chunk)
+                                <div <?php if($count==1) { ?> class="item active" <?php } else {
+                                    ?> class="item" <?php } ?> >
+                                    @foreach($chunk as $item)
                                     <div class="col-sm-4">
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img src="images/home/recommend1.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>Easy Polo Black Edition</p>
+                                                    <img style="width: 230px;" src="{{asset('/images/backend_images/products/small/'.$item->image)}}" alt="" />
+                                                    <h2>৳ {{$item->price}}</h2>
+                                                    <p>{{$item->product_name}}</p>
+                                                    <a href="{{url('/product-details/'.$item->id)}}">
                                                     <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="images/home/recommend2.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>Easy Polo Black Edition</p>
-                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="images/home/recommend3.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>Easy Polo Black Edition</p>
-                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
-                                <div class="item">
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="images/home/recommend1.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>Easy Polo Black Edition</p>
-                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="images/home/recommend2.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>Easy Polo Black Edition</p>
-                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="images/home/recommend3.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>Easy Polo Black Edition</p>
-                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <?php $count++; ?>
+
+                                    @endforeach
+
+
                             </div>
                             <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
                                 <i class="fa fa-angle-left"></i>
