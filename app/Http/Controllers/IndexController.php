@@ -18,7 +18,7 @@ class IndexController extends Controller
 
         //Product by Random
 
-        $products =Product::inRandomOrder()->get();
+        $products =Product::inRandomOrder()->where('status',1)->get();
 
         //Categories
 

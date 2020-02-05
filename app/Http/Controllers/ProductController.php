@@ -65,6 +65,14 @@ class ProductController extends Controller
 
             }
 
+            if(empty($data['status'])){
+                $status = 0;
+            }else{
+                $status =1;
+            }
+
+            $product->status = $status;
+
             $product->save();
             return redirect()->to('/admin/view-product')->with('message','Product has been added successfully');
         }
@@ -132,6 +140,12 @@ class ProductController extends Controller
                 $data['care'] = "";
             }
 
+            if(empty($data['status'])){
+                $status = 0;
+            }else{
+                $status =1;
+            }
+
 
 
             Product::where(['id'=>$id])->update([
@@ -143,6 +157,7 @@ class ProductController extends Controller
                 'care'=>$data['care'],
                 'price'=>$data['price'],
                 'image'=>$fileName,
+                'status'=>$status,
             ]);
 
             return redirect()->back()->with('message','Product Updated Successfully');
@@ -363,11 +378,11 @@ class ProductController extends Controller
                 $cat_ids[] =$subCat->id;
             }
 
-            $products =Product::whereIn('category_id',$cat_ids)->get();
+            $products =Product::whereIn('category_id',$cat_ids)->where('status',1)->get();
         }
         else{
             //for sub categories
-            $products =Product::where(['category_id'=>$categoriesDetails->id])->get();
+            $products =Product::where(['category_id'=>$categoriesDetails->id])->where('status',1)->get();
 
         }
 
@@ -376,6 +391,12 @@ class ProductController extends Controller
     }
 
     public function product($id){
+
+        $productCount =Product::where(['id'=>$id,'status'=>1])->count();
+
+        if($productCount==0){
+            abort(404);
+        }
 
         $categories =Category::with('categories')->where(['parent_id'=>0])->get();
 

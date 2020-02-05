@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->text('care');
             $table->float('price');
             $table->string('image');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }
