@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use App\Category;
 use App\Product;
 use App\ProductsAttribute;
@@ -9,6 +10,7 @@ use App\ProductsImage;
 use Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+
 
 class ProductController extends Controller
 {
@@ -438,4 +440,39 @@ class ProductController extends Controller
 
 
     }
+
+    public function addToCart(Request $request){
+
+        $data =$request->all();
+
+        //echo "<pre>"; print_r($data); die;
+
+        if(empty($data['user_email'])){
+            $data['user_email'] = "";
+        }
+
+        if(empty($data['session_id'])){
+            $data['session_id'] = "";
+        }
+
+        $sizeArr = explode("-",$data['size']);
+
+        Cart::insert([
+            'product_id'=>$data['product_id'],
+            'product_name'=>$data['product_name'],
+            'product_code'=>$data['product_code'],
+            'product_color'=>$data['product_color'],
+            'price'=>$data['price'],
+            'size'=> $sizeArr[1],
+            'quantity'=>$data['quantity'],
+            'user_email'=> $data['user_email'],
+            'session_id'=> $data['session_id'],
+        ]);
+
+        return response('success');
+
+
+
+    }
+
 }

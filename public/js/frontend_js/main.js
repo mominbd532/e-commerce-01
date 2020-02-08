@@ -45,6 +45,7 @@ $(document).ready(function () {
 
 				var arr =resp.split('#');
 				$("#getPrice").html("৳"+arr[0]);
+				$('#price').val(arr[0]);
 				if(arr[1]==0){
 					$('#cartButton').hide();
 					$('#availability').text('Out of Stock');

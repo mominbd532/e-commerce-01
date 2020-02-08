@@ -43,7 +43,17 @@
 
                         </div>
                         <div class="col-sm-7">
-                            <div class="product-information"><!--/product-information-->
+                            <form name="addToCartForm" id="addToCartForm" action="{{url('add-cart')}}" method="post" >
+                                {{ csrf_field() }}
+                                <input type="hidden" name="product_id" value="{{$productDetails->id}}">
+                                <input type="hidden" name="product_name" value="{{$productDetails->product_name}}">
+                                <input type="hidden" name="product_code" value="{{$productDetails->product_code}}">
+                                <input type="hidden" name="product_color" value="{{$productDetails->product_color}}">
+                                <input type="hidden" name="price" id="price" value="{{$productDetails->price}}">
+
+
+
+                                <div class="product-information"><!--/product-information-->
                                 <img src="{{asset('/images/frontend_images/product-details/new.jpg')}}" class="newarrival" alt="" />
                                 <h2>{{$productDetails->product_name}}</h2>
                                 <p>Code: {{$productDetails->product_code}} </p>
@@ -59,10 +69,11 @@
                                 <img  src="{{asset('/images/frontend_images/product-details/rating.png')}}" alt="" />
                                 <span>
 									<span id="getPrice">৳ {{$productDetails->price}}</span>
+
 									<label>Quantity:</label>
-									<input type="text" value="3" />
+									<input type="text" name="quantity" value="1" />
                                     @if($totalStock>0)
-									<button type="button" class="btn btn-fefault cart" id="cartButton">
+									<button type="submit" class="btn btn-fefault cart" id="cartButton">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart
 									</button>
@@ -73,6 +84,8 @@
 
                                 <a href=""><img  src="{{asset('/images/frontend_images/product-details/share.png')}}" class="share img-responsive"  alt="" /></a>
                             </div><!--/product-information-->
+
+                            </form>
                         </div>
                     </div><!--/product-details-->
 
