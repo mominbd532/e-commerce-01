@@ -92,4 +92,8 @@ Route::get('/get-product-price','ProductController@getProductPrice');
 
 Route::match(['get','post'],'/add-cart','ProductController@addToCart');
 
+//Cart Page
+
+Route::match(['get','post'],'/cart','ProductController@cart');
+
 

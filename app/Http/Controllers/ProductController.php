@@ -7,6 +7,7 @@ use App\Category;
 use App\Product;
 use App\ProductsAttribute;
 use App\ProductsImage;
+use Illuminate\Support\Facades\Session;
 use Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -451,9 +452,14 @@ class ProductController extends Controller
             $data['user_email'] = "";
         }
 
-        if(empty($data['session_id'])){
-            $data['session_id'] = "";
+        $sessionId =Session::get('session_id');
+
+        if(empty($sessionId)){
+            $sessionId =str_random(40);
+            Session::put('session_id',$sessionId);
         }
+
+
 
         $sizeArr = explode("-",$data['size']);
 
@@ -466,13 +472,20 @@ class ProductController extends Controller
             'size'=> $sizeArr[1],
             'quantity'=>$data['quantity'],
             'user_email'=> $data['user_email'],
-            'session_id'=> $data['session_id'],
+            'session_id'=> $sessionId,
         ]);
 
-        return response('success');
+        return redirect()->to('/cart')->with('message','Products Added to Cart successfully');
 
 
 
     }
+
+    public function cart(){
+        $sessionId =Session::get('session_id');
+        $userCart =Cart::where(['session_id'=>$sessionId])->get();
+        return view('products.cart')->with(compact('userCart'));
+    }
+
 
 }
