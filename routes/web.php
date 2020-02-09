@@ -96,4 +96,10 @@ Route::match(['get','post'],'/add-cart','ProductController@addToCart');
 
 Route::match(['get','post'],'/cart','ProductController@cart');
 
+//Delete product from cart
 
+Route::get('/cart/delete-product/{id}','ProductController@cartDeleteProduct');
+
+//Update product quantity in Cart
+
+Route::get('/cart/update-quantity/{id}/{quantity}','ProductController@updateProductCartQuantity');

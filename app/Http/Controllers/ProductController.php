@@ -463,17 +463,30 @@ class ProductController extends Controller
 
         $sizeArr = explode("-",$data['size']);
 
-        Cart::insert([
+        $productCount =Cart::where([
             'product_id'=>$data['product_id'],
-            'product_name'=>$data['product_name'],
-            'product_code'=>$data['product_code'],
             'product_color'=>$data['product_color'],
-            'price'=>$data['price'],
             'size'=> $sizeArr[1],
-            'quantity'=>$data['quantity'],
-            'user_email'=> $data['user_email'],
             'session_id'=> $sessionId,
-        ]);
+        ])->count();
+
+        if($productCount>0){
+            return redirect()->back()->with('message1','Product already exists on cart');
+        }else{
+            Cart::insert([
+                'product_id'=>$data['product_id'],
+                'product_name'=>$data['product_name'],
+                'product_code'=>$data['product_code'],
+                'product_color'=>$data['product_color'],
+                'price'=>$data['price'],
+                'size'=> $sizeArr[1],
+                'quantity'=>$data['quantity'],
+                'user_email'=> $data['user_email'],
+                'session_id'=> $sessionId,
+            ]);
+        }
+
+
 
         return redirect()->to('/cart')->with('message','Products Added to Cart successfully');
 
@@ -484,7 +497,26 @@ class ProductController extends Controller
     public function cart(){
         $sessionId =Session::get('session_id');
         $userCart =Cart::where(['session_id'=>$sessionId])->get();
+
+        foreach($userCart as $key => $product){
+            $productDetails =Product::where('id',$product->product_id)->first();
+            $userCart[$key]->image = $productDetails->image;
+        }
+
         return view('products.cart')->with(compact('userCart'));
+    }
+
+    public function cartDeleteProduct($id){
+
+        Cart::where('id',$id)->delete();
+        return redirect()->back()->with('message','Your product deleted from cart successfully');
+
+    }
+
+    public function updateProductCartQuantity($id,$quantity){
+        Cart::where('id',$id)->increment('quantity',$quantity);
+        return redirect()->back()->with('message','Product quantity updated successfully');
+
     }
 
 
