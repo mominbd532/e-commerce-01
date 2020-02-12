@@ -21,6 +21,16 @@
                     </div>
 
                 @endif
+                    @if(Session::has('message1'))
+                        <div class="alert alert-danger alert-block">
+
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+
+                            <strong>{!! session('message1') !!}</strong>
+
+                        </div>
+
+                    @endif
                 <table class="table table-condensed">
                     <thead>
                     <tr class="cart_menu">
@@ -33,6 +43,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <?php $totalAmount = 0; ?>
                     @foreach($userCart as $cart)
                     <tr>
                         <td class="cart_product">
@@ -63,6 +74,8 @@
                             <a class="cart_quantity_delete" href="{{url('/cart/delete-product/'.$cart->id)}}"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
+
+                    <?php $totalAmount = $totalAmount + ($cart->quantity*$cart->price); ?>
 
                     @endforeach
 
@@ -137,10 +150,8 @@
                 <div class="col-sm-6">
                     <div class="total_area">
                         <ul>
-                            <li>Cart Sub Total <span>$59</span></li>
-                            <li>Eco Tax <span>$2</span></li>
-                            <li>Shipping Cost <span>Free</span></li>
-                            <li>Total <span>$61</span></li>
+
+                            <li>Total <span>৳ <?php echo $totalAmount; ?> </span></li>
                         </ul>
                         <a class="btn btn-default update" href="">Update</a>
                         <a class="btn btn-default check_out" href="">Check Out</a>

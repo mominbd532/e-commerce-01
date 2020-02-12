@@ -9,10 +9,17 @@
 
             </ul>
         </li>
-        <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Product</span> <span class="label label-important">2</span></a>
+        <li class="submenu"> <a href="{{url('/admin/add-product')}}"><i class="icon icon-th-list"></i> <span>Product</span> <span class="label label-important">2</span></a>
             <ul>
                 <li><a href="{{url('/admin/add-product')}}">Add Product</a></li>
                 <li><a href="{{url('/admin/view-product')}}">View Product</a></li>
+
+            </ul>
+        </li>
+        <li class="submenu"> <a href="{{url('/admin/add-coupon')}}"><i class="icon icon-th-list"></i> <span>Coupon</span> <span class="label label-important">2</span></a>
+            <ul>
+                <li><a href="{{url('/admin/add-coupon')}}">Add Coupon</a></li>
+                <li><a href="{{url('/admin/view-coupons')}}">View Coupons</a></li>
 
             </ul>
         </li>

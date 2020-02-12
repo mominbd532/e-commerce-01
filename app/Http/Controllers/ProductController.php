@@ -473,10 +473,13 @@ class ProductController extends Controller
         if($productCount>0){
             return redirect()->back()->with('message1','Product already exists on cart');
         }else{
+            $getSKU =ProductsAttribute::select('sku')->where(['product_id'=>$data['product_id'],'size'=> $sizeArr[1]])->first();
+
+
             Cart::insert([
                 'product_id'=>$data['product_id'],
                 'product_name'=>$data['product_name'],
-                'product_code'=>$data['product_code'],
+                'product_code'=>$getSKU->sku,
                 'product_color'=>$data['product_color'],
                 'price'=>$data['price'],
                 'size'=> $sizeArr[1],
@@ -514,8 +517,18 @@ class ProductController extends Controller
     }
 
     public function updateProductCartQuantity($id,$quantity){
-        Cart::where('id',$id)->increment('quantity',$quantity);
-        return redirect()->back()->with('message','Product quantity updated successfully');
+        $getCartDetails =Cart::where('id',$id)->first();
+        $getAttributesStock =ProductsAttribute::where(['sku'=>$getCartDetails->product_code])->first();
+        $updatedQuantity =$getCartDetails->quantity+$quantity;
+        if($getAttributesStock->stock >= $updatedQuantity){
+            Cart::where('id',$id)->increment('quantity',$quantity);
+            return redirect()->back()->with('message','Product quantity updated successfully');
+
+        }else{
+            return redirect()->back()->with('message1','Required Quantity is Not Available');
+
+        }
+
 
     }
 
