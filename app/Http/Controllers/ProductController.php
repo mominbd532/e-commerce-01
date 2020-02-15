@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\Category;
+use App\Coupon;
 use App\Product;
 use App\ProductsAttribute;
 use App\ProductsImage;
@@ -531,6 +532,58 @@ class ProductController extends Controller
 
 
     }
+
+    public function applyCoupon(Request $request){
+        $data =$request->all();
+        //echo "<pre>"; print_r($data); die;
+
+        $countCoupon =Coupon::where(['coupon_code'=>$data['coupon_code']])->count();
+
+        if($countCoupon == 0){
+            return redirect()->back()->with('message1','Your coupon code is invalid');
+        }else{
+
+            $couponDetails =Coupon::where(['coupon_code'=>$data['coupon_code']])->first();
+            //echo "<pre>"; print_r($couponDetails); die;
+
+            if($couponDetails->status ==0){
+                return redirect()->back()->with('message1','Your coupon in not active');
+            }
+
+            $expire_date =$couponDetails->expire_date;
+            $currentDate =date('Y-m-d');
+            if($expire_date < $currentDate){
+                return redirect()->back()->with('message1','Your coupon is expired');
+            }
+
+
+            $sessionId =Session::get('session_id');
+            $userCart =Cart::where(['session_id'=>$sessionId])->get();
+
+            $totalAmount = 0;
+
+            foreach($userCart as $item){
+                $totalAmount =$totalAmount +($item->price * $item->quantity);
+            }
+
+            if($couponDetails->amount_type=="fixed"){
+                $couponAmount =$couponDetails->amount;
+            }else{
+                $couponAmount =$totalAmount * ($couponDetails->amount/100);
+            }
+
+            Session::put('CouponAmount',$couponAmount);
+            Session::put('CouponCode',$data['coupon_code']);
+
+            return redirect()->back()->with('message','Coupon apply successfully');
+
+
+
+
+        }
+
+    }
+
 
 
 }

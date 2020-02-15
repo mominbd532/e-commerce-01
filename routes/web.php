@@ -64,6 +64,8 @@ Route::group(['middleware'=>['auth']],function (){
     Route::match(['get','post'],'/admin/add-coupon','CouponsController@addCoupon');
     Route::match(['get','post'],'/admin/edit-coupon/{id}','CouponsController@editCoupon');
     Route::get('/admin/view-coupons','CouponsController@viewCoupons');
+    Route::get('/admin/delete-coupon/{id}','CouponsController@deleteCoupon');
+
 
 
 
@@ -101,11 +103,9 @@ Route::match(['get','post'],'/add-cart','ProductController@addToCart');
 //Cart Page
 
 Route::match(['get','post'],'/cart','ProductController@cart');
-
-//Delete product from cart
-
 Route::get('/cart/delete-product/{id}','ProductController@cartDeleteProduct');
-
-//Update product quantity in Cart
-
 Route::get('/cart/update-quantity/{id}/{quantity}','ProductController@updateProductCartQuantity');
+
+//Coupon
+
+Route::post('/cart/apply-coupon','ProductController@applyCoupon');
