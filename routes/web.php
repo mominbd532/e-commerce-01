@@ -29,7 +29,6 @@ Route::group(['middleware'=>['auth']],function (){
     Route::get('/admin/setting','AdminController@setting');
     Route::get('/admin/check-pwd','AdminController@chkPassword');
     Route::match(['get','post'],'/admin/update-pwd','AdminController@updatePassword');
-    Route::match(['get','post'],'/admin/update-pwd','AdminController@updatePassword');
 
     //Category Routes (Admin)
     Route::match(['get','post'],'/admin/add-category','CategoryController@addCategory');
@@ -65,6 +64,13 @@ Route::group(['middleware'=>['auth']],function (){
     Route::match(['get','post'],'/admin/edit-coupon/{id}','CouponsController@editCoupon');
     Route::get('/admin/view-coupons','CouponsController@viewCoupons');
     Route::get('/admin/delete-coupon/{id}','CouponsController@deleteCoupon');
+
+    //Banner
+
+    Route::match(['get','post'],'/admin/add-banner','BannerController@addBanner');
+
+
+
 
 
 

@@ -79,6 +79,7 @@ class ProductController extends Controller
 
             $product->save();
             return redirect()->to('/admin/view-product')->with('message','Product has been added successfully');
+
         }
 
         $categories =Category::where(['parent_id'=>0])->get();
@@ -445,6 +446,9 @@ class ProductController extends Controller
 
     public function addToCart(Request $request){
 
+        Session::forget('CouponAmount');
+        Session::forget('CouponCode');
+
         $data =$request->all();
 
         //echo "<pre>"; print_r($data); die;
@@ -512,12 +516,18 @@ class ProductController extends Controller
 
     public function cartDeleteProduct($id){
 
+        Session::forget('CouponAmount');
+        Session::forget('CouponCode');
+
         Cart::where('id',$id)->delete();
         return redirect()->back()->with('message','Your product deleted from cart successfully');
 
     }
 
     public function updateProductCartQuantity($id,$quantity){
+        Session::forget('CouponAmount');
+        Session::forget('CouponCode');
+
         $getCartDetails =Cart::where('id',$id)->first();
         $getAttributesStock =ProductsAttribute::where(['sku'=>$getCartDetails->product_code])->first();
         $updatedQuantity =$getCartDetails->quantity+$quantity;
@@ -534,6 +544,9 @@ class ProductController extends Controller
     }
 
     public function applyCoupon(Request $request){
+        Session::forget('CouponAmount');
+        Session::forget('CouponCode');
+
         $data =$request->all();
         //echo "<pre>"; print_r($data); die;
 
