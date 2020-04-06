@@ -16,7 +16,7 @@
     <link href="{{asset('css/frontend_css/responsive.css')}}" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="{{asset('js/frontend_js/html5shiv.js')}}"></script>
-    <script src="{{asset('js/frontend_js/respond.min.js')}}"></script>
+
 
     <![endif]-->
     <link rel="shortcut icon" href="images/ico/favicon.ico">
@@ -47,5 +47,6 @@
 <script src="{{asset('js/frontend_js/jquery.prettyPhoto.js')}}"></script>
 <script src="{{asset('js/frontend_js/easyzoom.js')}}"></script>
 <script src="{{asset('js/frontend_js/main.js')}}"></script>
+<script src="{{asset('js/frontend_js/jquery.validate.js')}}"></script>
 </body>
 </html>

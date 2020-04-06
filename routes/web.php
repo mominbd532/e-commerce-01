@@ -117,3 +117,9 @@ Route::get('/cart/update-quantity/{id}/{quantity}','ProductController@updateProd
 //Coupon
 
 Route::post('/cart/apply-coupon','ProductController@applyCoupon');
+
+//Login Register
+
+Route::match(['get','post'],'/login-register','UsersController@register');
+Route::match(['get','post'],'/check-email','UsersController@check_email');
+

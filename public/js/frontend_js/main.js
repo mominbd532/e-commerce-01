@@ -102,3 +102,44 @@ $('.toggle').on('click', function() {
         api2._init();
     }
 });
+
+
+$().ready(function () {
+	$('#register_form').validate({
+		rules: {
+            name:{
+            	required: true,
+				minLength: 2,
+                accept: "[a-zA-Z]+"
+			},
+            password: {
+                required: true,
+				minLength: 6
+			},
+			email: {
+                required: true,
+				email: true,
+				remote: "/check-email"
+			}
+
+		},
+		messages:{
+            name:{
+                required: "Please enter your name",
+                minLength: "Your name must be minimum 2 character long",
+                accept: "Your name must have character"
+            },
+            password: {
+                required: "Please provide your password",
+                minLength: "Your password must be minimum 6 character long",
+            },
+            email: {
+                required: "Please enter your email",
+                email: "Please enter valid email",
+				remote: "Email already exit"
+            }
+
+		}
+	});
+
+});
