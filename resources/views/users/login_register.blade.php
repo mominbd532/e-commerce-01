@@ -49,7 +49,7 @@
                             {{csrf_field()}}
                             <input type="text" name="name" id="name" placeholder="Name" />
                             <input type="email" name="email" id="email" placeholder="Email Address" />
-                            <input type="password" name="password" id="password" placeholder="Password" />
+                            <input type="password" name="password" id="myPassword" placeholder="Password" />
                             <button type="submit" class="btn btn-default">Signup</button>
                         </form>
                     </div><!--/sign up form-->

@@ -142,4 +142,16 @@ $().ready(function () {
 		}
 	});
 
+    $('#myPassword').passtrength({
+        minChars: 6,
+        passwordToggle: true,
+        tooltip: true,
+        textWeak:"Weak",
+        textMedium:"Medium",
+        textStrong:"Strong",
+        textVeryStrong:"Very Strong",
+        eyeImg : "images/frontend_images/eye.svg",
+
+    });
+
 });
