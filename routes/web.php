@@ -120,6 +120,8 @@ Route::post('/cart/apply-coupon','ProductController@applyCoupon');
 
 //Login Register
 
-Route::match(['get','post'],'/login-register','UsersController@register');
+Route::get('/login-register','UsersController@loginRegister');
+Route::get('/logout','UsersController@logout');
+Route::post('/register','UsersController@register');
 Route::match(['get','post'],'/check-email','UsersController@check_email');
 

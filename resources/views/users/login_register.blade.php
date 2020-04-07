@@ -45,12 +45,34 @@
                     <div class="signup-form"><!--sign up form-->
 
                         <h2>New User Signup!</h2>
-                        <form action="{{url('/login-register')}}" method="post" name="register_form" id="register_form" >
+                        <form class="form-horizontal" action="{{url('/register')}}" method="post" name="register_form" id="register_form"  >
                             {{csrf_field()}}
-                            <input type="text" name="name" id="name" placeholder="Name" />
-                            <input type="email" name="email" id="email" placeholder="Email Address" />
-                            <input type="password" name="password" id="myPassword" placeholder="Password" />
-                            <button type="submit" class="btn btn-default">Signup</button>
+
+                            <div class="control-group">
+                                <div class="controls">
+                                    <input type="text" name="name" id="name" placeholder="Name"  required >
+                                </div>
+
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <input type="email" name="email" id="email" placeholder="Email Address" required >
+
+                                </div>
+
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <input type="password" name="password" id="myPassword" placeholder="Password" required >
+                                </div>
+
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-default">Signup</button>
+                            </div>
+
+
                         </form>
                     </div><!--/sign up form-->
                 </div>
