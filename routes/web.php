@@ -126,3 +126,14 @@ Route::post('/register','UsersController@register');
 Route::post('/login','UsersController@login');
 Route::match(['get','post'],'/check-email','UsersController@check_email');
 
+
+
+
+Route::group(['middleware'=>['front_login']],function (){
+
+    // Account
+
+    Route::match(['get','post'],'/account','UsersController@account');
+
+});
+

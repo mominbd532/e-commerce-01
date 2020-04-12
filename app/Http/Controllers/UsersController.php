@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller
 {
@@ -41,6 +42,7 @@ class UsersController extends Controller
                     $user->password  = bcrypt($data['password']);
                     $user->save();
                     if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+                        Session::put('front_login',$data['email']);
                         return redirect()->to('/cart');
 
                     }
@@ -54,17 +56,26 @@ class UsersController extends Controller
 
     public function logout(){
         Auth::logout();
+        Session::forget('front_login');
         return redirect()->to('/');
     }
 
     public function login(Request $request){
         $data = $request->all();
         if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+            Session::put('front_login',$data['email']);
             return redirect('/cart');
         }else{
             return redirect()->back()->with('message1','You entered invalid email or password');
         }
     }
+
+    public function account(){
+        return view('users.account');
+    }
+
+
+
 
 
 }

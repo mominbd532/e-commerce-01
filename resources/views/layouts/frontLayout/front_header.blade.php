@@ -72,7 +72,7 @@ $mainCategories =Controller::mainCategories();
                                 <li><a href="{{url('/login-register')}}"><i class="fa fa-lock"></i> Login</a></li>
 
                             @else
-                                <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
+                                <li><a href="{{url('/account')}}"><i class="fa fa-user"></i> Account</a></li>
                                 <li><a href="{{url('/logout')}}"><i class="fa fa-sign-out"></i> Log Out</a></li>
                             @endif
 
