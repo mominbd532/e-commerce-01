@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Country;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +72,10 @@ class UsersController extends Controller
     }
 
     public function account(){
-        return view('users.account');
+        $user_id =Auth::user()->id;
+        $user_details =User::find($user_id);
+        $countries =Country::get();
+        return view('users.account',compact('countries','user_details'));
     }
 
 
