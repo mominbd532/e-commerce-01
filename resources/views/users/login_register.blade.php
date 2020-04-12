@@ -27,13 +27,12 @@
                 <div class="col-sm-4 col-sm-offset-1">
                     <div class="login-form"><!--login form-->
                         <h2>Login to your account</h2>
-                        <form action="#">
-                            <input type="text" placeholder="Name" />
-                            <input type="email" placeholder="Email Address" />
-                            <span>
-								<input type="checkbox" class="checkbox">
-								Keep me signed in
-							</span>
+                        <form action="{{url('/login')}}" method="post" name="login_form" id="login_form" >
+                            {{csrf_field()}}
+
+                            <input type="email" id="email" name="email" placeholder="Name" />
+                            <input type="password" id="password" name="password" placeholder="Email Address" />
+
                             <button type="submit" class="btn btn-default">Login</button>
                         </form>
                     </div><!--/login form-->

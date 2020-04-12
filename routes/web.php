@@ -123,5 +123,6 @@ Route::post('/cart/apply-coupon','ProductController@applyCoupon');
 Route::get('/login-register','UsersController@loginRegister');
 Route::get('/logout','UsersController@logout');
 Route::post('/register','UsersController@register');
+Route::post('/login','UsersController@login');
 Route::match(['get','post'],'/check-email','UsersController@check_email');
 

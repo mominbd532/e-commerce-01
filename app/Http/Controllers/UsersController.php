@@ -57,5 +57,14 @@ class UsersController extends Controller
         return redirect()->to('/');
     }
 
+    public function login(Request $request){
+        $data = $request->all();
+        if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+            return redirect('/cart');
+        }else{
+            return redirect()->back()->with('message1','You entered invalid email or password');
+        }
+    }
+
 
 }

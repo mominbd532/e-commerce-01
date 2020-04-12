@@ -105,6 +105,7 @@ $('.toggle').on('click', function() {
 
 
 $().ready(function () {
+
 	$('#register_form').validate({
 		rules: {
             name:{
@@ -150,6 +151,35 @@ $().ready(function () {
             $(element).parents('.control-group').addClass('success');
         }
 	});
+
+    $('#login_form').validate({
+        rules: {
+            email: {
+                required: true,
+                email: true,
+
+            },
+            password: {
+                required: true,
+
+            },
+
+
+        },
+        messages:{
+            email: {
+                required: "Please enter your email",
+                email: "Please enter valid email",
+
+            },
+            password: {
+                required: "Please provide your password",
+            },
+
+
+        },
+
+    });
 
     $('#myPassword').passtrength({
         minChars: 6,
