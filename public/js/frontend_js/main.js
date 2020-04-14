@@ -103,28 +103,27 @@ $('.toggle').on('click', function() {
     }
 });
 
-
 $().ready(function () {
 
-	$('#register_form').validate({
-		rules: {
+    $('#register_form').validate({
+        rules: {
             name:{
-            	required: true,
-				minLength: 2,
+                required: true,
+                minLength: 2,
                 accept: "[a-zA-Z]+"
-			},
+            },
             password: {
                 required: true,
-				minLength: 6
-			},
-			email: {
+                minLength: 6
+            },
+            email: {
                 required: true,
-				email: true,
-				remote: "/check-email"
-			}
+                email: true,
+                remote: "/check-email"
+            }
 
-		},
-		messages:{
+        },
+        messages:{
             name:{
                 required: "Please enter your name",
                 minLength: "Your name must be minimum 2 character long",
@@ -137,49 +136,108 @@ $().ready(function () {
             email: {
                 required: "Please enter your email",
                 email: "Please enter valid email",
-				remote: "Email already exit"
+                remote: "Email already exit"
             }
 
-		},
-        errorClass: "help-inline",
-        errorElement: "span",
-        highlight:function(element, errorClass, validClass) {
-            $(element).parents('.control-group').addClass('error');
         },
-        unhighlight: function(element, errorClass, validClass) {
-            $(element).parents('.control-group').removeClass('error');
-            $(element).parents('.control-group').addClass('success');
-        }
-	});
+
+    });
 
     $('#login_form').validate({
         rules: {
             email: {
                 required: true,
-                email: true,
-
+                email: true
             },
             password: {
-                required: true,
-
+                required: true
             },
-
-
         },
-        messages:{
+        messages: {
             email: {
                 required: "Please enter your email",
-                email: "Please enter valid email",
+                email: "Please enter valid email"
 
             },
             password: {
-                required: "Please provide your password",
-            },
-
-
-        },
+                required: "Please provide your password"
+            }
+        }
 
     });
+
+    $('#accountForm').validate({
+
+        rules: {
+            name: {
+                required: true,
+                minLength:2,
+                accept:"[a-zA-Z]+"
+            },
+            address: {
+                required: true,
+                minLength:6
+            },
+            city: {
+                required: true,
+                minLength:4
+            },
+            state: {
+                required: true,
+                minLength:4
+            },
+            country: {
+                required: true,
+                minLength:4
+            },
+            pincode: {
+                required: true,
+                number:true,
+                minLength:4
+            },
+            mobile: {
+                required: true,
+                number:true,
+                minLength:11
+            }
+        },
+        messages: {
+            name: {
+                required: "Please enter your name",
+                minLength: "Please enter minimum 2 character",
+                accept:"Please enter alphabetic only"
+            },
+            address: {
+                required: "Please enter your address",
+                minLength: "Please enter minimum 6 character"
+            },
+            city: {
+                required: "Please enter your city",
+                minLength: "Please enter minimum 4 character"
+            },
+            state: {
+                required: "Please enter your state",
+                minLength: "Please enter minimum 4 character"
+            },
+            country: {
+                required: "Please enter your country",
+                minLength: "Please enter minimum 4 character"
+            },
+            pincode: {
+                required: "Please enter your pincode",
+                number: "Only number supported",
+                minLength: "Please enter minimum 4 character"
+            },
+            mobile: {
+                required: "Please enter your phone",
+                number: "Only number supported",
+                minLength: "Please enter minimum 11 character"
+            }
+
+        }
+
+    });
+
 
     $('#myPassword').passtrength({
         minChars: 6,
@@ -192,5 +250,4 @@ $().ready(function () {
         eyeImg : "images/frontend_images/eye.svg",
 
     });
-
 });

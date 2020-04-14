@@ -27,20 +27,20 @@
                 <div class="col-sm-4 col-sm-offset-1">
                     <div class="login-form">
                         <h2>Update your account</h2>
-                        <form action="" method="post" name="" id="" >
+                        <form action="{{url('/account')}}" method="post" name="accountForm" id="accountForm" >
                             {{csrf_field()}}
-                            <input type="text" name="name" id="name" placeholder="Name" value="{{$user_details->name}}">
-                            <input type="text" name="address" id="address" placeholder="Address">
-                            <input type="text" name="city" id="city" placeholder="City">
-                            <input type="text" name="state" id="state" placeholder="State">
+                            <input type="text" name="name" id="name" placeholder="Name" value="{{$user_details->name}}" />
+                            <input type="text" name="address" id="address" placeholder="Address" value="{{$user_details->address}}" />
+                            <input type="text" name="city" id="city" placeholder="City" value="{{$user_details->city}}" />
+                            <input type="text" name="state" id="state" placeholder="State" value="{{$user_details->state}}" />
                             <select name="country" id="country">
                                 <option>Select Country</option>
                                 @foreach($countries as $country)
-                                    <option value="{{$country->country_name}}">{{$country->country_name}}</option>
-                                    @endforeach
+                                    <option value="{{$country->country_name}}" @if($country->country_name == $user_details->country ) selected  @endif >{{$country->country_name}}</option>
+                                @endforeach
                             </select>
-                            <input style="margin-top: 10px;" type="text" name="pincode" id="pincode" placeholder="Pin Code">
-                            <input type="text" name="mobile" id="mobile" placeholder="Mobile">
+                            <input style="margin-top: 10px;" type="text" name="pincode" id="pincode" placeholder="Pin Code" value="{{$user_details->pincode}}" />
+                            <input type="text" name="mobile" id="mobile" placeholder="Mobile" value="{{$user_details->mobile}}" />
 
 
                             <button type="submit" class="btn btn-default">Update</button>
