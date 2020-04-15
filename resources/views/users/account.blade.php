@@ -55,7 +55,7 @@
                     <div class="signup-form">
 
                         <h2>Update Password</h2>
-                        <form class="form-horizontal" action="" method="post" name="passwordForm" id="passwordForm"  >
+                        <form class="form-horizontal" action="{{url('/update-user-pwd')}}" method="post" name="passwordForm" id="passwordForm"  >
                             {{csrf_field()}}
                             <input type="password" name="current_pwd" id="current_pwd"  placeholder="Current password">
                             <span id="chkpwd"></span>

@@ -169,6 +169,7 @@ $(document).ready(function () {
 
 
     // Account Form Validation
+
     $("#accountForm").validate({
         rules:{
             name:{
@@ -189,7 +190,6 @@ $(document).ready(function () {
             },
             country:{
                 required:true
-                minlength:4
             },
             pincode:{
                 required:true,
