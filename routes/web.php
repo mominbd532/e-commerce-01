@@ -134,6 +134,7 @@ Route::group(['middleware'=>['front_login']],function (){
     // Account
 
     Route::match(['get','post'],'/account','UsersController@account');
+    Route::post('/check-user-password','UsersController@checkPassword');
 
 });
 

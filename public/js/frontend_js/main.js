@@ -103,7 +103,7 @@ $('.toggle').on('click', function() {
     }
 });
 
-$().ready(function () {
+$(document).ready(function () {
 
     $('#register_form').validate({
         rules: {
@@ -166,77 +166,55 @@ $().ready(function () {
 
     });
 
-    $('#accountForm').validate({
 
-        rules: {
-            name: {
-                required: true,
-                minLength:2,
-                accept:"[a-zA-Z]+"
+
+    // Account Form Validation
+    $("#accountForm").validate({
+        rules:{
+            name:{
+                required:true,
+                minlength:2
             },
-            address: {
-                required: true,
-                minLength:6
+            address:{
+                required:true,
+                minlength:4
             },
-            city: {
-                required: true,
-                minLength:4
+            city:{
+                required:true,
+                minlength:4
             },
-            state: {
-                required: true,
-                minLength:4
+            state:{
+                required:true,
+                minlength:2
             },
-            country: {
-                required: true,
-                minLength:4
+            country:{
+                required:true
+                minlength:4
             },
-            pincode: {
-                required: true,
-                number:true,
-                minLength:4
+            pincode:{
+                required:true,
+                minlength:4,
+                number:true
+
             },
-            mobile: {
-                required: true,
-                number:true,
-                minLength:11
+            mobile:{
+                required:true,
+                minlength:11,
+                number:true
+
             }
         },
-        messages: {
-            name: {
-                required: "Please enter your name",
-                minLength: "Please enter minimum 2 character",
-                accept:"Please enter alphabetic only"
-            },
-            address: {
-                required: "Please enter your address",
-                minLength: "Please enter minimum 6 character"
-            },
-            city: {
-                required: "Please enter your city",
-                minLength: "Please enter minimum 4 character"
-            },
-            state: {
-                required: "Please enter your state",
-                minLength: "Please enter minimum 4 character"
-            },
-            country: {
-                required: "Please enter your country",
-                minLength: "Please enter minimum 4 character"
-            },
-            pincode: {
-                required: "Please enter your pincode",
-                number: "Only number supported",
-                minLength: "Please enter minimum 4 character"
-            },
-            mobile: {
-                required: "Please enter your phone",
-                number: "Only number supported",
-                minLength: "Please enter minimum 11 character"
-            }
-
+        errorClass: "help-inline",
+        errorElement: "span",
+        highlight:function(element, errorClass, validClass) {
+            $(element).parents('.control-group').addClass('error');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).parents('.control-group').removeClass('error');
+            $(element).parents('.control-group').addClass('success');
         }
-
     });
+
 
 
     $('#myPassword').passtrength({
@@ -250,4 +228,58 @@ $().ready(function () {
         eyeImg : "images/frontend_images/eye.svg",
 
     });
+
+    $('#current_pwd').keyup(function () {
+        var current_pwd = $(this).val();
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'post',
+            url: '/check-user-password',
+            data:{current_pwd:current_pwd},
+            success:function (resp) {
+                if(resp=="false"){
+                    $('#chkpwd').html("<font color='red'>Current password is incorrect</font>");
+                }else if(resp=="true"){
+                    $('#chkpwd').html("<font color='green'>Current password is correct</font>");
+                }
+            },error:function () {
+                alert('error');
+            }
+            });
+
+    });
+
+    $("#passwordForm").validate({
+        rules:{
+            current_pwd:{
+                required: true,
+                minlength:6,
+                maxlength:20
+            },
+            new_pwd:{
+                required: true,
+                minlength:6,
+                maxlength:20
+            },
+            confirm_pwd:{
+                required:true,
+                minlength:6,
+                maxlength:20,
+                equalTo:"#new_pwd"
+            }
+        },
+        errorClass: "help-inline",
+        errorElement: "span",
+        highlight:function(element, errorClass, validClass) {
+            $(element).parents('.control-group').addClass('error');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).parents('.control-group').removeClass('error');
+            $(element).parents('.control-group').addClass('success');
+        }
+    });
+
+
 });
